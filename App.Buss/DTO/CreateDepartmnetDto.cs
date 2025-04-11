@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Buss.DTO
 {
+
     public class CreateDepartmnetDto
     {
         [Required(ErrorMessage ="Not Allowed Empty")]
