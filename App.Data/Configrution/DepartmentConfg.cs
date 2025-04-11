@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace App.Data.Configrution
 {
+
     public class DepartmentConfg : IEntityTypeConfiguration<Department>
     {
         public void Configure(EntityTypeBuilder<Department> builder)
