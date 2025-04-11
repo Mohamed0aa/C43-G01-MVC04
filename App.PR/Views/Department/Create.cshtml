@@ -1,0 +1,27 @@
+﻿
+@model CreateDepartmnetDto
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+<br />
+<br />
+<form  asp-action="Create">
+    <div class="mb-3">
+        <label asp-for="Code" class="form-label">Code</label>
+        <input type="text" class="form-control" asp-for="Code" aria-describedby="emailHelp">
+        <span asp-validation-for="Code"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input type="text" class="form-control" asp-for="Name" aria-describedby="emailHelp">
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <input type="text" class="form-control" asp-for="Description">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

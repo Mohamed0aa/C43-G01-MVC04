@@ -10,7 +10,12 @@ namespace App.Data.dbContext
 {
     public class AppDbContext : DbContext
     {
-       //Applied Dependancy injection
+
+        public AppDbContext(DbContextOptions<AppDbContext>options):base(options)
+        {
+            
+        }
+        //Applied Dependancy injection
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

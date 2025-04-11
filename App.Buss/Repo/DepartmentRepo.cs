@@ -14,9 +14,9 @@ namespace App.Buss.Repo
 
         private readonly AppDbContext Context;
 
-        public DepartmentRepo()
+        public DepartmentRepo(AppDbContext _Context)
         {
-            Context = new AppDbContext();
+            Context = _Context;
         }
 
 

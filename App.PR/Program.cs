@@ -1,3 +1,5 @@
+using App.Buss.Interfaces;
+using App.Buss.Repo;
 using App.Data.dbContext;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +14,10 @@ namespace App.PR
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddScoped<IDepartmentRepo, DepartmentRepo>();
             builder.Services.AddDbContext<AppDbContext>
                 (
-                    option => option.UseSqlServer("Server=.; Database=App; Trusted_Connection=True; TrustServerCertificate=True")
+                    option => option.UseSqlServer(builder.Configuration.GetConnectionString("Defualte"))
                 );
 
             var app = builder.Build();
