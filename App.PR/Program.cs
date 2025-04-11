@@ -1,3 +1,6 @@
+using App.Data.dbContext;
+using Microsoft.EntityFrameworkCore;
+
 namespace App.PR
 {
     public class Program
@@ -8,6 +11,11 @@ namespace App.PR
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<AppDbContext>
+                (
+                    option => option.UseSqlServer("Server=.; Database=App; Trusted_Connection=True; TrustServerCertificate=True")
+                );
 
             var app = builder.Build();
 
