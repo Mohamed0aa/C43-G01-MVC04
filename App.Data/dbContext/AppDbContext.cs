@@ -16,6 +16,6 @@ namespace App.Data.dbContext
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        DbSet<Department> Departments{ get; set; }
+        public DbSet<Department> Departments{ get; set; }
     }
 }
