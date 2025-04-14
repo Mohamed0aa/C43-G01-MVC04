@@ -51,12 +51,96 @@ namespace App.PR.Controllers
             }
             return View(model);
         }
-
-        public IActionResult Details()
+        [HttpGet]
+        public IActionResult Details(int? id,String ActionNmae)
         {
+            if (id == null) return BadRequest();
+            var department = _DeptRepo.GetById(id.Value);
 
-            return View();
+            if (department == null) return NotFound();
+
+            return View(ActionNmae,department);
 
         }
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            //if (id == null) return BadRequest();
+            //var department = _DeptRepo.GetById(id.Value);
+
+            //if (department == null) return NotFound();
+
+            return Details( id, "Edit");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]//prvent any thing out of project  to request this action
+        public IActionResult Edit([FromRoute] int id, Department department)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new BadRequestResult();
+            }
+            else
+            {
+                if (id != department.Id) return BadRequest();
+                var count = _DeptRepo.Update(department);
+                if (count > 0)
+                    return RedirectToAction("Index");
+            }
+            return View(department);
+        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]//prvent any thing out of project  to request this action
+        //public IActionResult Edit([FromRoute] int id, UpdeateDTO model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return new BadRequestResult();
+        //    }
+        //        var department = new Department
+        //        {
+        //            Id =id,
+        //            Name=model.Name,
+        //            Description=model.Description,
+        //            Code=model.Code,
+        //        };
+        //        var count = _DeptRepo.Update(department);
+        //        if (count > 0)
+        //            return RedirectToAction("Index");
+        //    return View(model);
+
+        //}
+
+        [HttpGet]
+        public IActionResult Delete([FromRoute] int? id)
+        {
+            //if (id == null) return BadRequest();
+            //var department = _DeptRepo.GetById(id.Value);
+
+            //if (department == null) return NotFound();
+
+            return Details(id, "Delete");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]//prvent any thing out of project  to request this action
+        public IActionResult Delete([FromRoute] int id, Department department)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new BadRequestResult();
+            }
+            else
+            {
+                if (id != department.Id) return BadRequest();
+                var count = _DeptRepo.Delete(department);
+                if (count > 0)
+                    return RedirectToAction("Index");
+            }
+            return View(department);
+        }
+
     }
+
 }
+
