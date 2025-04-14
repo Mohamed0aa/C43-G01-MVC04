@@ -1,28 +1,25 @@
 ﻿@model Department
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete";
 }
-
-<h1>Details</h1>
+<h1>Delete</h1>
 <br />
 <br />
-<div >
+<form asp-action="Delete">
     <div class="mb-3">
         <label asp-for="Code" class="form-label">Code</label>
-        <input type="text" class="form-control" asp-for="Code" readonly >
-        
+        <input type="text" class="form-control" asp-for="Code" readonly>
+
     </div>
     <div class="mb-3">
         <label asp-for="Name" class="form-label">Name</label>
         <input type="text" class="form-control" asp-for="Name" readonly>
-        
+
     </div>
     <div class="mb-3">
         <label asp-for="Description" class="form-label">Description</label>
         <input type="text" class="form-control" asp-for="Description" readonly>
     </div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit</a>
-</div>
-
-
+    <input type="submit" asp-action="Delete" value="Delete" class="btn btn-outline-danger"/>
+</form>
 
