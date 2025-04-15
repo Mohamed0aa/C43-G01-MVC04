@@ -1,5 +1,4 @@
-﻿
-using App.Buss.Interfaces;
+﻿using App.Buss.Interfaces;
 using App.Data.dbContext;
 using App.Data.Models;
 using System;
@@ -10,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace App.Buss.Repo
 {
-    public class DepartmentRepo : GenericRepo<Department>, IDepartmentRepo
+    public class EmployeeRepo : GenericRepo<Employee>,IEmployeeRepo
     {
-        public DepartmentRepo(AppDbContext _Context):base(_Context)
+        public EmployeeRepo(AppDbContext _Context) : base(_Context)
         {
 
         }

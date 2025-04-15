@@ -13,7 +13,9 @@ namespace App.Data.Configrution
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
-            builder.Property(e => e.Name).IsRequired().HasColumnType("varchar(50)");
+            builder.Property(d => d.Name).IsRequired().HasMaxLength(50);
+            
+
 
         }
     }
