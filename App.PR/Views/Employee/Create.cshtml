@@ -11,21 +11,27 @@
     <div class="mb-3">
         <label asp-for="Name" class="form-label">Name</label>
         <input type="text" class="form-control" asp-for="Name" aria-describedby="emailHelp">
-        <span asp-validation-for="Name"></span>
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Age" class="form-label">Age</label>
         <input type="text" class="form-control" asp-for="Age" aria-describedby="emailHelp">
-        <span asp-validation-for="Age"></span>
+        <span asp-validation-for="Age" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Email" class="form-label">Email</label>
         <input type="email" class="form-control" asp-for="Email">
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Phone" class="form-label">Phone</label>
         <input type="text" class="form-control" asp-for="Phone">
-        <span asp-validation-for="Phone"></span>
+        <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+@section validate{
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
