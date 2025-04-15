@@ -15,6 +15,7 @@ namespace App.PR
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IDepartmentRepo, DepartmentRepo>();
+            builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             builder.Services.AddDbContext<AppDbContext>
                 (
                     option => option.UseSqlServer(builder.Configuration.GetConnectionString("Defualte"))

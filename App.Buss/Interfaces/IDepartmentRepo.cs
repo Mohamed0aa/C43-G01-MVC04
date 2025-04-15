@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace App.Buss.Interfaces
 {
-    public interface IDepartmentRepo
+    public interface IDepartmentRepo:IGenericRepo<Department>
     {
 
 
-        IEnumerable<Department> GetAll();
-        Department? GetById(int id);
-        int Add(Department model);
-        int Update(Department model);
-        int Delete(Department model);
+        //IEnumerable<Department> GetAll();
+        //Department? GetById(int id);
+        //int Add(Department model);
+        //int Update(Department model);
+        //int Delete(Department model);
 
         
     }
