@@ -9,11 +9,15 @@ namespace App.Buss.DTO
 {
     public class CreateEmployeeDto
     {
-       
+        [Required(ErrorMessage = "Not Allowed Empty")]
         public int Id { get; set; }
+        [Required(ErrorMessage = "Not Allowed Empty")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Not Allowed Empty")]
         public int Age { get; set; }
+        [Required(ErrorMessage = "Not Allowed Empty")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Not Allowed Empty")]
         public string Phone { get; set; }
     }
 }
