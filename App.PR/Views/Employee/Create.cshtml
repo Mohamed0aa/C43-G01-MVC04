@@ -1,6 +1,7 @@
 ﻿@model CreateEmployeeDto
 @{
     ViewData["Title"] = "Create";
+    var departments = new SelectList(ViewData["departments"] as IEnumerable<Department>, "Id", "Name");
 }
 
 <h1>Create</h1>
@@ -28,6 +29,14 @@
         <input type="text" class="form-control" asp-for="Phone">
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
+    <div class ="mb-3">
+        <label asp-for="Dept_id" class="col-form-label"></label>
+        <select asp-for="Dept_id" asp-items="departments">
+            <option value="@null">Department</option>
+                 
+        </select>
+
+    </div >
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 @section validate{

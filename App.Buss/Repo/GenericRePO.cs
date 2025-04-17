@@ -1,7 +1,9 @@
 ﻿using App.Buss.Interfaces;
 using App.Data.dbContext;
 using App.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +26,10 @@ namespace App.Buss.Repo
 
         public IEnumerable<T> GetAll()
         {
+            if(typeof(T)== typeof(Employee))
+            {
+                return (IEnumerable<T>) Context.Set<Employee>().Include(e=>e.Department).ToList();
+            }
             return Context.Set<T>().ToList();
         }
 

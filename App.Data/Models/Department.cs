@@ -15,5 +15,7 @@ namespace App.Data.Models
         public string Name { get; set; }
         public string ? Description { get; set; }
         public DateTime CreateAt { get; set; }
+        public List<Employee>? Employees { get; set; }
+        
     }
 }

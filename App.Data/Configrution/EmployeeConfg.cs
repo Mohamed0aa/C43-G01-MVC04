@@ -14,6 +14,10 @@ namespace App.Data.Configrution
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
             builder.Property(d => d.Name).IsRequired().HasMaxLength(50);
+
+            builder.HasOne(e=>e.Department).WithMany(d=>d.Employees)
+                .HasForeignKey(e=>e.Dept_ID).OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.SetNull);
             
 
 

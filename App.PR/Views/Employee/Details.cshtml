@@ -1,6 +1,7 @@
 ﻿@model Employee
 @{
     ViewData["Title"] = "Details";
+    var departments = new SelectList(ViewData["departments"] as IEnumerable<Department>, "Id", "Name");
 }
 
 <h1>Details</h1>
@@ -24,6 +25,13 @@
     <div class="mb-3">
         <label asp-for="Email" class="form-label">Email</label>
         <input type="email" class="form-control" asp-for="Email" readonly>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Dept_ID" class="col-form-label"></label>
+        <select asp-for="Dept_ID" asp-items="departments" >
+            <option  value="@null">Department</option>
+        </select>
+
     </div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit</a>
 </div>

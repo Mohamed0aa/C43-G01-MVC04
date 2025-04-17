@@ -51,6 +51,7 @@ namespace App.PR.Controllers
             }
             return View(model);
         }
+
         [HttpGet]
         public IActionResult Details(int? id,String ActionNmae)
         {
@@ -62,6 +63,7 @@ namespace App.PR.Controllers
             return View(ActionNmae,department);
 
         }
+
         [HttpGet]
         public IActionResult Edit(int? id)
         {
