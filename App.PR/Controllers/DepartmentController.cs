@@ -2,23 +2,26 @@
 using App.Buss.Interfaces;
 using App.Buss.Repo;
 using App.Data.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.PR.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IDepartmentRepo _DeptRepo;
-
-        public DepartmentController(IDepartmentRepo DeptRepo)
+        //private readonly IDepartmentRepo _DeptRepo;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        public DepartmentController(IMapper mapper,IUnitOfWork unitOfWork)
         {
-            _DeptRepo = DeptRepo;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var departments = _DeptRepo.GetAll();
+            var departments = _unitOfWork.DepartmentRepo.GetAll();
             return View(departments);
         }
 
@@ -39,13 +42,14 @@ namespace App.PR.Controllers
             }
             else
             {
-                var department = new Department()
-                {
-                    Code = model.Code,
-                    Name = model.Name,
-                    Description = model.Description,
-                };
-                var count=_DeptRepo.Add(department);
+                var department= _mapper.Map<Department>(model);
+                //var department = new Department()
+                //{
+                //    Code = model.Code,
+                //    Name = model.Name,
+                //    Description = model.Description,
+                //};
+                var count= _unitOfWork.DepartmentRepo.Add(department);
                 if(count >0)
                     return RedirectToAction("Index");
             }
@@ -56,7 +60,7 @@ namespace App.PR.Controllers
         public IActionResult Details(int? id,String ActionNmae)
         {
             if (id == null) return BadRequest();
-            var department = _DeptRepo.GetById(id.Value);
+            var department = _unitOfWork.DepartmentRepo.GetById(id.Value);
 
             if (department == null) return NotFound();
 
@@ -86,7 +90,7 @@ namespace App.PR.Controllers
             else
             {
                 if (id != department.Id) return BadRequest();
-                var count = _DeptRepo.Update(department);
+                var count = _unitOfWork.DepartmentRepo.Update(department);
                 if (count > 0)
                     return RedirectToAction("Index");
             }
@@ -135,7 +139,7 @@ namespace App.PR.Controllers
             else
             {
                 if (id != department.Id) return BadRequest();
-                var count = _DeptRepo.Delete(department);
+                var count = _unitOfWork.DepartmentRepo.Delete(department);
                 if (count > 0)
                     return RedirectToAction("Index");
             }
