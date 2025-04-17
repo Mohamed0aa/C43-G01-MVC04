@@ -8,14 +8,16 @@ namespace App.PR.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeRepo _EmpRepo;
+        //private readonly IEmployeeRepo _EmpRepo;
 
-        private readonly IDepartmentRepo _DeptRepo;
+        //private readonly IDepartmentRepo _DeptRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _Mapper;
-        public EmployeeController(IEmployeeRepo EmpRepo, IDepartmentRepo DeptRepo,IMapper mapper)
+        public EmployeeController(IUnitOfWork unitOfWork,IMapper mapper)
         {
-            _EmpRepo = EmpRepo;
-            _DeptRepo = DeptRepo;
+            //_EmpRepo = EmpRepo;
+            //_DeptRepo = DeptRepo;
+            _unitOfWork = unitOfWork;
             _Mapper = mapper;
         }
 
@@ -24,12 +26,12 @@ namespace App.PR.Controllers
             
             if (string.IsNullOrEmpty(Search))
             {
-                var Employees = _EmpRepo.GetAll();
+                var Employees = _unitOfWork.EmployeeRepo.GetAll();
                 return View(Employees);
             }
             else
             {
-                var Employee=_EmpRepo.GetByName(Search);
+                var Employee= _unitOfWork.EmployeeRepo.GetByName(Search);
                 return View(Employee);
             }
               
@@ -39,7 +41,7 @@ namespace App.PR.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var department = _DeptRepo.GetAll();
+            var department = _unitOfWork.DepartmentRepo.GetAll();
              ViewData["departments"] = department;
             
             return View();
@@ -66,7 +68,7 @@ namespace App.PR.Controllers
                 //    Phone = model.Phone,
                 //    Dept_ID=model.Dept_id
                 //};
-                var count = _EmpRepo.Add(employee);
+                var count = _unitOfWork.EmployeeRepo.Add(employee);
                 if (count > 0)
                     return RedirectToAction("Index");
             }
@@ -77,10 +79,10 @@ namespace App.PR.Controllers
         [HttpGet]
         public IActionResult Details(int? id, String ActionNmae)
         {
-            var department = _DeptRepo.GetAll();
+            var department = _unitOfWork.DepartmentRepo.GetAll();
             ViewData["departments"] = department;
             if (id == null) return BadRequest();
-            var employee = _EmpRepo.GetById(id.Value);
+            var employee = _unitOfWork.EmployeeRepo.GetById(id.Value);
 
             if (employee == null) return NotFound();
 
@@ -90,7 +92,7 @@ namespace App.PR.Controllers
         [HttpGet]
         public IActionResult Edit(int? id)
         {
-            var department = _DeptRepo.GetAll();
+            var department = _unitOfWork.DepartmentRepo.GetAll();
             ViewData["departments"] = department;
             //if (id == null) return BadRequest();
             //var department = _DeptRepo.GetById(id.Value);
@@ -109,7 +111,7 @@ namespace App.PR.Controllers
             else
             {
                 if (id != employee.Id) return BadRequest();
-                var count = _EmpRepo.Update(employee);
+                var count = _unitOfWork.EmployeeRepo.Update(employee);
                 if (count > 0)
                     return RedirectToAction("Index");
             }
@@ -132,7 +134,7 @@ namespace App.PR.Controllers
             else
             {
                 if (id != employee.Id) return BadRequest();
-                var count = _EmpRepo.Delete(employee);
+                var count = _unitOfWork.EmployeeRepo.Delete(employee);
                 if (count > 0)
                     return RedirectToAction("Index");
             }

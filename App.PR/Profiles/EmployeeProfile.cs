@@ -9,7 +9,8 @@ namespace App.PR.Profiles
         public EmployeeProfile()
         {
             CreateMap<CreateEmployeeDto, Employee>().ReverseMap();
-                //.ForMember(d=>d.Dept_id,o=>o.MapFrom(s=>s.) );
+            //.ForMember(d=>d.Dept_id,o=>o.MapFrom(s=>s.) );
+            CreateMap<CreateDepartmnetDto, Department>().ReverseMap();
         }
     }
 }
