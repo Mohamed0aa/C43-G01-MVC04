@@ -14,5 +14,6 @@ namespace App.Buss.Interfaces
         //int Add(Employee model);
         //int Update(Employee model);
         //int Delete(Employee model);
+        IEnumerable<Employee> GetByName(string name);
     }
 }

@@ -6,6 +6,20 @@
 <h1>All Employee</h1>
 <br />
 <br />
+<form asp-action="Index">
+    <div class=" container" >
+        <div class="row justify-content-center d-flex">
+            <div  class="col-6 ">
+                <input type="text" class="form-control" name="Search" id="mo">
+            </div>
+            <div class="col-6" >
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            
+        </div>
+    </div>
+</form>
+<br />
 <a asp-action="Create" class="btn btn-outline-primary">Create</a>
 <br />
 <br />
@@ -18,6 +32,7 @@
                 <th>Phone</th>
                 <th>Age</th>
                 <th>Email</th>
+                <th>Department</th>
                 <th>Details</th>
                 <th>Update</th>
                 <th>Delete</th>
@@ -32,6 +47,15 @@
                     <td>@item.Phone</td>
                     <td>@item.Age</td>
                     <td>@item.Email</td>
+                    @{if (item.Department is not  null)
+                        {
+                            <td>@item.Department.Name</td>
+                        }
+                        else
+                        {
+                            <td>free</td>
+                        }
+                    }
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary">Details</a>
                     </td>

@@ -1,7 +1,9 @@
 using App.Buss.Interfaces;
 using App.Buss.Repo;
 using App.Data.dbContext;
+using App.PR.Profiles;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace App.PR
 {
@@ -20,6 +22,7 @@ namespace App.PR
                 (
                     option => option.UseSqlServer(builder.Configuration.GetConnectionString("Defualte"))
                 );
+             builder.Services.AddAutoMapper(typeof(EmployeeProfile));
 
             var app = builder.Build();
 

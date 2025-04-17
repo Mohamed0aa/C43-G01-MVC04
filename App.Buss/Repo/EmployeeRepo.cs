@@ -1,6 +1,7 @@
 ﻿using App.Buss.Interfaces;
 using App.Data.dbContext;
 using App.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,15 @@ namespace App.Buss.Repo
 {
     public class EmployeeRepo : GenericRepo<Employee>,IEmployeeRepo
     {
-        public EmployeeRepo(AppDbContext _Context) : base(_Context)
+        private readonly AppDbContext _Context;
+        public EmployeeRepo(AppDbContext Context) : base(Context)
         {
+            _Context = Context;
+        }
 
+        public IEnumerable<Employee> GetByName(string name)
+        {
+            return _Context.Employees.Include(e => e.Department).Where(e => e.Name.ToLower().Contains(name.ToLower() ));
         }
     }
 }
