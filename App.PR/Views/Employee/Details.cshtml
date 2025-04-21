@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model CreateEmployeeDto
 @{
     ViewData["Title"] = "Details";
     var departments = new SelectList(ViewData["departments"] as IEnumerable<Department>, "Id", "Name");
@@ -7,8 +7,8 @@
 <h1>Details</h1>
 <br />
 <br />
-<div>
-    <div class="mb-3">
+<form  enctype="multipart/form-data">
+    <div class="mb-3" >
         <label asp-for="Name" class="form-label">Name</label>
         <input type="text" class="form-control" asp-for="Name" readonly>
 
@@ -27,14 +27,17 @@
         <input type="email" class="form-control" asp-for="Email" readonly>
     </div>
     <div class="mb-3">
-        <label asp-for="Dept_ID" class="col-form-label"></label>
-        <select asp-for="Dept_ID" asp-items="departments" >
+        <label asp-for="Dept_id" class="col-form-label"></label>
+        <select asp-for="Dept_id" asp-items="departments" >
             <option  value="@null">Department</option>
         </select>
-
+    </div>
+    <div class="mb-3">
+        <label asp-for="Image" class="form-label">Image</label>
+        <input type="file" class="form-control" asp-for="Image"  disabled>
     </div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit</a>
-</div>
+</form>
 
 
 

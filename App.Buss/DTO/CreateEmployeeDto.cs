@@ -1,4 +1,5 @@
 ﻿using App.Data.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,5 +24,7 @@ namespace App.Buss.DTO
 
         [Display(Name = "Department")]
         public int? Dept_id { get; set; }
+        public IFormFile? Image { get; set; }
+        public String? ImageName { get; set; }
     }
 }

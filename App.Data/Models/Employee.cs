@@ -26,6 +26,8 @@ namespace App.Data.Models
         public int? Dept_ID {  get; set; }
         public Department?Department { get; set; }
 
+        public String? ImageName {  get; set; }
+
         
 
 
