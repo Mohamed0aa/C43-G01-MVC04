@@ -44,7 +44,7 @@ namespace App.PR.Controllers
             {
                 var department= _mapper.Map<Department>(model);
                 //var department = new Department()
-                //{
+                //{       
                 //    Code = model.Code,
                 //    Name = model.Name,
                 //    Description = model.Description,

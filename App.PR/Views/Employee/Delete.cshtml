@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model CreateEmployeeDto
 @{
     ViewData["Title"] = "Delete";
 }
@@ -7,6 +7,8 @@
 <br />
 <br />
 <form asp-action="Delete">
+
+    <input asp-for="ImageName" hidden/>
 
     <div class="mb-3">
         <label asp-for="Name" class="form-label">Name</label>
@@ -26,6 +28,11 @@
         <label asp-for="Phone" class="form-label">Phone</label>
         <input type="text" class="form-control" asp-for="Phone">
         <span asp-validation-for="Phone"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Dept_id" class="form-label">Dept_id</label>
+        <input type="text" class="form-control" asp-for="Dept_id">
+        
     </div>
     <button type="submit" class="btn btn-danger">Delete</button>
 </form>

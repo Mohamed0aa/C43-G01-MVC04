@@ -1,6 +1,7 @@
 ﻿using App.Buss.DTO;
 using App.Buss.Interfaces;
 using App.Data.Models;
+using App.PR.Add;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,6 +58,8 @@ namespace App.PR.Controllers
             }
             else
             {
+                if (model.Image is not null)
+                { model.ImageName= DocmentManage.Upload(model.Image); }
 
                 var employee = _Mapper.Map<Employee>(model);
                 //var employee = new Employee()
@@ -82,7 +85,8 @@ namespace App.PR.Controllers
             var department = _unitOfWork.DepartmentRepo.GetAll();
             ViewData["departments"] = department;
             if (id == null) return BadRequest();
-            var employee = _unitOfWork.EmployeeRepo.GetById(id.Value);
+            var emp = _unitOfWork.EmployeeRepo.GetById(id.Value);
+            var employee = _Mapper.Map<CreateEmployeeDto>(emp);
 
             if (employee == null) return NotFound();
 
@@ -102,7 +106,7 @@ namespace App.PR.Controllers
             return Details(id, "Edit");
         }
         [HttpPost]
-        public IActionResult Edit([FromRoute]int? id,Employee employee)
+        public IActionResult Edit([FromRoute]int? id,CreateEmployeeDto employee)
         {
             if (!ModelState.IsValid)
             {
@@ -110,12 +114,22 @@ namespace App.PR.Controllers
             }
             else
             {
+                if (employee.ImageName is not null &&employee.Image is not null) { DocmentManage.Delete(employee.ImageName); }
+
+                if(employee.Image is not null )
+                {
+                    employee.ImageName=DocmentManage.Upload(employee.Image);
+                }
+                var emp = _Mapper.Map<Employee>(employee);
+
                 if (id != employee.Id) return BadRequest();
-                var count = _unitOfWork.EmployeeRepo.Update(employee);
+                var count = _unitOfWork.EmployeeRepo.Update(emp);
                 if (count > 0)
                     return RedirectToAction("Index");
+                else
+                    return BadRequest();
             }
-            return View(employee);
+            //return View(employee);
         }
 
         [HttpGet]
@@ -125,7 +139,7 @@ namespace App.PR.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]//prvent any thing out of project  to request this action
-        public IActionResult Delete([FromRoute] int id, Employee employee)
+        public IActionResult Delete([FromRoute] int id, CreateEmployeeDto employee)
         {
             if (!ModelState.IsValid)
             {
@@ -133,10 +147,16 @@ namespace App.PR.Controllers
             }
             else
             {
+                var emp = _Mapper.Map<Employee>(employee);
                 if (id != employee.Id) return BadRequest();
-                var count = _unitOfWork.EmployeeRepo.Delete(employee);
+                var count = _unitOfWork.EmployeeRepo.Delete(emp);
                 if (count > 0)
+                {
+                    if(emp.ImageName is  not null) 
+                    DocmentManage.Delete(emp.ImageName);
+
                     return RedirectToAction("Index");
+                }
             }
             return View(employee);
         }
