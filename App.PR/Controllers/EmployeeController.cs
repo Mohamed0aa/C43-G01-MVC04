@@ -3,10 +3,13 @@ using App.Buss.Interfaces;
 using App.Data.Models;
 using App.PR.Add;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.PR.Controllers
 {
+
+    [Authorize]
     public class EmployeeController : Controller
     {
         //private readonly IEmployeeRepo _EmpRepo;
@@ -22,17 +25,17 @@ namespace App.PR.Controllers
             _Mapper = mapper;
         }
 
-        public IActionResult Index(string? Search)
+        public async Task<IActionResult> Index(string? Search)
         {
             
             if (string.IsNullOrEmpty(Search))
             {
-                var Employees = _unitOfWork.EmployeeRepo.GetAll();
+                var Employees =await _unitOfWork.EmployeeRepo.GetAllAsync();
                 return View(Employees);
             }
             else
             {
-                var Employee= _unitOfWork.EmployeeRepo.GetByName(Search);
+                var Employee=await _unitOfWork.EmployeeRepo.GetByNameAsync(Search);
                 return View(Employee);
             }
               
@@ -40,9 +43,9 @@ namespace App.PR.Controllers
 
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var department = _unitOfWork.DepartmentRepo.GetAll();
+            var department =await  _unitOfWork.DepartmentRepo.GetAllAsync();
              ViewData["departments"] = department;
             
             return View();
@@ -50,7 +53,7 @@ namespace App.PR.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(CreateEmployeeDto model)
+        public async Task<IActionResult> Create(CreateEmployeeDto model)
         {
             if (!ModelState.IsValid)
             {
@@ -71,7 +74,8 @@ namespace App.PR.Controllers
                 //    Phone = model.Phone,
                 //    Dept_ID=model.Dept_id
                 //};
-                var count = _unitOfWork.EmployeeRepo.Add(employee);
+                await _unitOfWork.EmployeeRepo.AddAsync(employee);
+                int count = _unitOfWork.EmployeeRepo.Save();
                 if (count > 0)
                     return RedirectToAction("Index");
             }
@@ -80,12 +84,12 @@ namespace App.PR.Controllers
 
 
         [HttpGet]
-        public IActionResult Details(int? id, String ActionNmae)
+        public async Task<IActionResult> Details(int? id, String ActionNmae)
         {
-            var department = _unitOfWork.DepartmentRepo.GetAll();
+            var department =await _unitOfWork.DepartmentRepo.GetAllAsync();
             ViewData["departments"] = department;
             if (id == null) return BadRequest();
-            var emp = _unitOfWork.EmployeeRepo.GetById(id.Value);
+            var emp =await _unitOfWork.EmployeeRepo.GetByIdAsync(id.Value);
             var employee = _Mapper.Map<CreateEmployeeDto>(emp);
 
             if (employee == null) return NotFound();
@@ -94,16 +98,16 @@ namespace App.PR.Controllers
 
         }
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            var department = _unitOfWork.DepartmentRepo.GetAll();
+            var department =await _unitOfWork.DepartmentRepo.GetAllAsync();
             ViewData["departments"] = department;
             //if (id == null) return BadRequest();
             //var department = _DeptRepo.GetById(id.Value);
 
             //if (department == null) return NotFound();
 
-            return Details(id, "Edit");
+            return await Details(id, "Edit");
         }
         [HttpPost]
         public IActionResult Edit([FromRoute]int? id,CreateEmployeeDto employee)
@@ -123,7 +127,8 @@ namespace App.PR.Controllers
                 var emp = _Mapper.Map<Employee>(employee);
 
                 if (id != employee.Id) return BadRequest();
-                var count = _unitOfWork.EmployeeRepo.Update(emp);
+                _unitOfWork.EmployeeRepo.Update(emp);
+                var count = _unitOfWork.EmployeeRepo.Save();
                 if (count > 0)
                     return RedirectToAction("Index");
                 else
@@ -133,9 +138,9 @@ namespace App.PR.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return Details(id, "Delete");
+            return await Details(id, "Delete");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]//prvent any thing out of project  to request this action
@@ -149,7 +154,8 @@ namespace App.PR.Controllers
             {
                 var emp = _Mapper.Map<Employee>(employee);
                 if (id != employee.Id) return BadRequest();
-                var count = _unitOfWork.EmployeeRepo.Delete(emp);
+                 _unitOfWork.EmployeeRepo.Delete(emp);
+                var count = _unitOfWork.EmployeeRepo.Save();
                 if (count > 0)
                 {
                     if(emp.ImageName is  not null) 

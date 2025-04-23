@@ -18,9 +18,9 @@ namespace App.Buss.Repo
             _Context = Context;
         }
 
-        public IEnumerable<Employee> GetByName(string name)
+        public async Task<IEnumerable<Employee>> GetByNameAsync(string name)
         {
-            return _Context.Employees.Include(e => e.Department).Where(e => e.Name.ToLower().Contains(name.ToLower() ));
+            return await _Context.Employees.Include(e => e.Department).Where(e => e.Name.ToLower().Contains(name.ToLower() )).ToListAsync();
         }
     }
 }
