@@ -2,7 +2,9 @@ using App.Buss;
 using App.Buss.Interfaces;
 using App.Buss.Repo;
 using App.Data.dbContext;
+using App.Data.Models;
 using App.PR.Profiles;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +27,15 @@ namespace App.PR
                     option => option.UseSqlServer(builder.Configuration.GetConnectionString("Defualte"))
                 );
              builder.Services.AddAutoMapper(typeof(EmployeeProfile));
+            builder.Services.AddIdentity<AppUser,IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>();
+
+            builder.Services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath="/Account/SignIn";
+                //config.
+
+            });
 
             var app = builder.Build();
 
@@ -35,7 +46,8 @@ namespace App.PR
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRouting();
 

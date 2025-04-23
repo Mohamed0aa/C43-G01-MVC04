@@ -5,10 +5,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using App.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace App.Data.dbContext
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
 
 

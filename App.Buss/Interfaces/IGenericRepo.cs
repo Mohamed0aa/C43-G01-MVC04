@@ -9,10 +9,12 @@ namespace App.Buss.Interfaces
 {
     public interface IGenericRepo<T> where T:BaseEntity
     {
-        IEnumerable<T> GetAll();
-        T? GetById(int id);
-        int Add(T model);
-        int Update(T model);
-        int Delete(T model);
+        Task<IEnumerable<T>>GetAllAsync();
+        Task<T?> GetByIdAsync(int id);
+        Task AddAsync(T model);
+        void Update(T model);
+        void Delete(T model);
+
+        int Save();
     }
 }

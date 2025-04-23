@@ -24,35 +24,41 @@ namespace App.Buss.Repo
             
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             if(typeof(T)== typeof(Employee))
             {
-                return (IEnumerable<T>) Context.Set<Employee>().Include(e=>e.Department).ToList();
+                return  (IEnumerable<T>) await  Context.Set<Employee>().Include(e=>e.Department).ToListAsync();
             }
-            return Context.Set<T>().ToList();
+            return await Context.Set<T>().ToListAsync();
         }
 
-        public T? GetById(int id)
+        public async Task< T?> GetByIdAsync(int id)
         {
-            return Context.Set<T>().Find(id);
+            return await Context.Set<T>().FindAsync(id);
         }
-        public int Add(T model)
+        public async Task AddAsync(T model)
         {
-             Context.Set<T>().Add(model);
-            return Context.SaveChanges();
+             await Context.Set<T>().AddAsync(model);
+            //return Context.SaveChanges();
         }
 
-        public int Update(T model)
+        public void Update(T model)
         {
             Context.Set<T>().Update(model);
-            return Context.SaveChanges();
+            
         }
 
-        public int Delete(T model)
+        public void Delete(T model)
         {
             Context.Set<T>().Remove(model);
-            return Context.SaveChanges();
+ 
         }
+
+        public  int Save()
+        {
+            return  Context.SaveChanges();
+        }
+
     }
 }
